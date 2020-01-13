@@ -31,56 +31,56 @@ class Cart(object):
 
             yield item
 
-        ##상품추가
-        def add(self, product, quantity=1, is_update=False):
-            product_id = str(product.id)
-            if product_id not in self.cart:
-                self.cart[product_id] = {'quantity':0 , 'price':str(product.price)}
+    ##상품추가
+    def add(self, product, quantity=1, is_update=False):
+        product_id = str(product.id)
+        if product_id not in self.cart:
+            self.cart[product_id] = {'quantity':0 , 'price':str(product.price)}
 
-            if is_update:
-                self.cart[product_id]['quantity'] = quantity
-            else:
-                self.cart[product_id]['quantity'] += quantity
+        if is_update:
+            self.cart[product_id]['quantity'] = quantity
+        else:
+            self.cart[product_id]['quantity'] += quantity
 
+        self.save()
+
+    #저장
+    def save(self):
+        self.session[settings.CART_ID] = self.cart
+        self.session.modified = True
+
+
+    def remove(self, product):
+        product_id = str(product.id)
+        if product_id in self.cart:
+            del(self.cart['product_id'])
             self.save()
 
-        #저장
-        def save(self):
-            self.session[settings.CART_ID] = self.cart
-            self.session.modified = True
+
+    def clear(self):
+        self.session[settings.CARD_ID] = {}
+        self.session['coupon_id'] = None
+        self.session.modified = True
 
 
-        def remove(self, product):
-            product_id = str(product.id)
-            if product_id in self.cart:
-                del(self.cart['product_id'])
-                self.save()
+    def get_product_total(self):
+        return sum(Decimal(item['price'])*item['quantity'] for item in self.cart.values())
 
 
-        def clear(self):
-            self.session[settings.CARD_ID] = {}
-            self.session['coupon_id'] = None
-            self.session.modified = True
+    @property
+    def coupon(self):
+        if self.coupon_id:
+            return Coupon.objects.get(id=self.coupon_id)
+        return None
 
+    def get_discount_total(self):
+        if self.coupon:
+            if self.get_product_total() >= self.coupon.amount:
+                return self.coupon.amount
+        return Decimal(0)
 
-        def get_product_total(self):
-            return sum(Decimal(item['price'])*item['quantity'] for item in self.cart.values())
-
-
-        @property
-        def coupon(self):
-            if self.coupon_id:
-                return Coupon.objects.get(id=self.coupon_id)
-            return None
-
-        def get_discount_total(self):
-            if self.coupon:
-                if self.get_product_total() >= self.coupon.amount:
-                    return self.coupon.amount
-            return Decimal(0)
-
-        def get_total_price(self):
-            return self.get_product_total() - self.get_discount_total()
+    def get_total_price(self):
+        return self.get_product_total() - self.get_discount_total()
 
 
 
