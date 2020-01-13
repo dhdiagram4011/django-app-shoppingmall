@@ -28,14 +28,14 @@
                 </th>
                 <td>{{ product.name }}</td>
                 <td>
-                    <form action="{% url "cart:product_add" product_id %}" method="post">
+                    <form action="{% url "cart:product_add" product.id %}" method="post">
                         {{ item.quantity_form.quantity }}
                         {{ item.quantity_form.is_update }}
                         <input type="submit" class="btn btn-primary" value="Update">
                         {% csrf_token %}
                     </form>
                 </td>
-                <td><a href="{% url "cart:product_remove" product_id %}">Remove</a></td>
+                <td><a href="{% url "cart:product_remove" product.id %}">Remove</a></td>
                 <td class="num">${{ item.price }}</td>
                 <td class="num">${{ item.total_price }}</td>
             </tr>
