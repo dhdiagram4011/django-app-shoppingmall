@@ -23,6 +23,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='category_products')
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True, unique=True, allow_unicode=True)
+    description = models.TextField(blank=True)
     meta_description = models.TextField(max_length=250, blank=True)  # 검색엔진이 읽어가는 글자 수 제한
 
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
