@@ -147,6 +147,6 @@ CART_ID = 'cart_in_session'
 IAMPORT_ID = '5086013622995739'
 IAMPORT_SECRET = 'viQkHxxgDoXJwinJzkE82Z34itkdKz1gSSAzp8Q3wNM36aMFurOxrRCJkWX5wYmoQXYg5OjCC6FJgspL'
 
-STATICFILE_DIRS = [
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
