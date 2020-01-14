@@ -117,7 +117,7 @@ pangocffi==0.5.0
 parso==0.5.1
 pexpect==4.7.0
 pickleshare==0.7.5
-Pillow==6.1.0
+Pillow==6.2.0
 post==2019.4.13
 posts==0.2.2
 premailer==3.6.1
