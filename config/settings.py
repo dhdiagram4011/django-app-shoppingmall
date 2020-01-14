@@ -141,3 +141,11 @@ STATIC_URL = '/static/'
 
 
 CART_ID = 'cart_in_session'
+
+#결제연동
+IAMPORT_ID = '5086013622995739'
+IAMPORT_SECRET = 'viQkHxxgDoXJwinJzkE82Z34itkdKz1gSSAzp8Q3wNM36aMFurOxrRCJkWX5wYmoQXYg5OjCC6FJgspL'
+
+STATICFILE_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
