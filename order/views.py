@@ -16,9 +16,11 @@ def order_create(request):
 
             for item in cart:
                 OrderItem.objects.create(order=order, product=item['product'], price=item['price'], quantity=item['quantity'])
-            else:
-                form = OrderCreateForm()
-            return render(request, 'order/create.html', {'cart':cart, 'form':form})
+            cart.clear()
+            return render(request, 'order/created.html', {'order':order})
+    else:
+        form = OrderCreateForm()
+    return render(request, 'order/create.html', {'cart':cart, 'form':form})
 
 
 def order_complete(request):
@@ -139,5 +141,4 @@ def admin_order_pdf(request, order_id):
     response['Content-Disposition'] = 'filename=order_{}.pdf'.format(order.id)
     weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(settings.STATICFILES_DIRS[0]+'/css/pdf.css')])
     return response
-
 
