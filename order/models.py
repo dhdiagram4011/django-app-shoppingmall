@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from coupon.models import Coupon
 from shop.models import Product
 import hashlib
-from .iamport import payments_prepare, find_transcation
+from .iamport import payments_prepare, find_transaction
 
 
 class Order(models.Model):
@@ -75,7 +75,7 @@ class OrderTransactionManager(models.Manager):
         return transaction.merchant_order_id
 
     def get_transaction(self,merchant_order_id):
-        result = find_transcation(merchant_order_id)
+        result = find_transaction(merchant_order_id)
         if result['status'] == 'paid':
             return result
         else:

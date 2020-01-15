@@ -1,16 +1,15 @@
-#IAMPORT 와 API 통신
-
 import requests
 from django.conf import settings
 
+# iamport 에서 토큰을 얻어옴
 def get_token():
     access_data = {
-        'imp_key' : settings.IAMPORT_KEY,
-        'iam_secret' : settings.IAMPORT_SECRET
+        'imp_key': settings.IAMPORT_KEY,
+        'imp_secret': settings.IAMPORT_SECRET
     }
 
-    url = "https://api.import.kr/users/getToken"
-
+    url = "https://api.iamport.kr/users/getToken"
+    # requests : 특정 서버와 http통신을 하게 해주는 모듈
     req = requests.post(url,data=access_data)
     access_res = req.json()
 
@@ -19,34 +18,36 @@ def get_token():
     else:
         return None
 
-
+# 결제할 준비를 하는 함수 - iamport 에 주문번호와 금액을 미리 전송
 def payments_prepare(order_id,amount,*args,**kwargs):
     access_token = get_token()
     if access_token:
         access_data = {
-            'merchant_uid' : order_id,
-            'amount' : amount
+            'merchant_uid':order_id,
+            'amount':amount
         }
-        url = "https://api.import.kr/payments/prepare"
+
+        url = "https://api.iamport.kr/payments/prepare"
         headers = {
             'Authorization':access_token
         }
-        req = requests.post(url,data=access_data, headers=headers)
+        req = requests.post(url, data=access_data, headers=headers)
         res = req.json()
 
         if res['code'] is not 0:
-            raise ValueError("API통신오류")
-        else:
-            raise ValueError("API토큰오류")
+            raise ValueError("API 통신 오류")
+    else:
+        raise ValueError("토큰 오류")
 
 
-def find_transcation(order_id,*args,**kwargs):
+# 결제가 이루어졌음을 확인해주는 함수 - 실 결제 정보를 iamport에서 가져옴
+def find_transaction(order_id,*args,**kwargs):
     access_token = get_token()
     if access_token:
-        url = "https://api.import.kr/payments/find/"+order_id
+        url = "https://api.iamport.kr/payments/find/"+order_id
 
         headers = {
-            'Authorization' : access_token
+            'Authorization':access_token
         }
 
         req = requests.post(url, headers=headers)
@@ -54,16 +55,15 @@ def find_transcation(order_id,*args,**kwargs):
 
         if res['code'] is 0:
             context = {
-                'imp_id' : res['response']['imp_uid'],
-                'merchant_order_id' : res['response']['merchant_uid'],
-                'amount' : res['response']['amount'],
-                'status' : res['response']['status'],
-                'type' : res['response']['type'],
-                'receipt_url' : res['response']['receipt_url'],
+                'imp_id':res['response']['imp_uid'],
+                'merchant_order_id':res['response']['merchant_uid'],
+                'amount':res['response']['amount'],
+                'status':res['response']['status'],
+                'type':res['response']['pay_method'],
+                'receipt_url':res['response']['receipt_url']
             }
             return context
         else:
             return None
     else:
-        raise ValueError("토근오류")
-
+        raise ValueError("토큰 오류")
