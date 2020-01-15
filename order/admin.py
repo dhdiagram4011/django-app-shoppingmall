@@ -29,12 +29,12 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 def order_detail(obj):
-    return mark_safe('<a href="{}">Detail</a>'.format(reverse('orders:admin_order_detail', args=[obj.id])))
+    return mark_safe('<a href="{}">Detail</a>'.format(reverse('order:admin_order_detail', args=[obj.id])))
 
 order_detail.short_discription = 'Detail'
 
 def order_pdf(obj):
-    return mark_safe('<a href="{}">PDF</a>'.format(reverse('orders:admin_order_pdf', args=[obj.id])))
+    return mark_safe('<a href="{}">PDF</a>'.format(reverse('order:admin_order_pdf', args=[obj.id])))
 
 order_pdf.short_discription = 'PDF'
 
