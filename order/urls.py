@@ -2,7 +2,6 @@ from django.urls import path
 from .views import *
 
 app_name = 'order'
-
 urlpatterns = [
     path('create/', order_create, name='order_create'),
     path('create_ajax/', OrderCreateAjaxView.as_view(), name='order_create_ajax'),

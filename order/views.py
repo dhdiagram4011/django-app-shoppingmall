@@ -34,8 +34,8 @@ from django.http import JsonResponse
 
 class OrderCreateAjaxView(View):
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return JsonResponse({"authenticated":False}, status=403)
+        #if not request.user.is_authenticated:
+        return JsonResponse({"authenticated":False}, status=403)
 
         cart = Cart(request)
         form = OrderCreateForm(request.POST)
@@ -59,8 +59,8 @@ class OrderCreateAjaxView(View):
 
 class OrderCheckoutAjaxView(View):
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return JsonResponse({"authenticated":False}, status=403)
+        #if not request.user.is_authenticated:
+        return JsonResponse({"authenticated":False}, status=403)
 
         order_id = request.GET.get('order_id')
         order = Order.objects.get(id=order_id)
@@ -86,8 +86,8 @@ class OrderCheckoutAjaxView(View):
 
 class OrderImpAjaxView(View):
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return JsonResponse({"authenticated":False}, status=403)
+        #if not request.user.is_authenticated:
+        return JsonResponse({"authenticated":False}, status=403)
 
         order_id = request.POST.get('order_id')
         order = Order.objects.get(id=order_id)
