@@ -26,7 +26,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     meta_description = models.TextField(max_length=250, blank=True)  # 검색엔진이 읽어가는 글자 수 제한
 
-    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
+    image = models.ImageField(upload_to="products", blank=True)
 
     price = models.IntegerField()
     stock = models.IntegerField()

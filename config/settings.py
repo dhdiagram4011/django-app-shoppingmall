@@ -151,3 +151,6 @@ IAMPORT_SECRET = 'viQkHxxgDoXJwinJzkE82Z34itkdKz1gSSAzp8Q3wNM36aMFurOxrRCJkWX5wY
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+#MEDIA_URL = '/products/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'products')
